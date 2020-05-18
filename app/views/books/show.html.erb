@@ -34,10 +34,41 @@
 					<td><%= link_to @book.title, @book %></td>
 					<td><%= @book.body %></td>
 
+					<td>
+						<% if current_user.already_favorited_by?(@book) %>
+							<%= link_to book_favorites_path(@book),method: :delete do %>
+							<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+							<%= @book.favorites.count %>
+							<% end %>
+						<% else %>
+							<%= link_to book_favorites_path(@book), method: :create do %>
+							<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+							<%= @book.favorites.count %>
+							<% end %>
+
+						<% end %>
+
+					</td>
+					<td>
+						コメント数　: <%= @book_comments.count %>
+					</td>
+
 					<% if @book.user.id == current_user.id %>
 					<td><%= link_to "Edit",edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
 					<td><%= link_to "Destroy",@book, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
 					<% end %>
+				</tr>
+				<tr>
+					<td>
+						<li id="comment_area">
+							<%= render partial: 'index',locals: {book_comments: @book_comments} %>
+						</li>
+						<% if user_signed_in? %>
+							<div class="comment-create">
+								<%= render partial: 'book_comments/form', locals: {book_comment: @book_comment, book: @book} %>
+							</div>
+						<% end %>
+					</td>
 				</tr>
 			</table>
 

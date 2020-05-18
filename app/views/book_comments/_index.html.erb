@@ -1,0 +1,17 @@
+<% book_comments.each do |book_comment| %>
+	<li id="comment-container">
+		<div class='comment-box'>
+			<div class="comment-avatar">
+				<%= attachment_image_tag book_comment.user, :profile_image,:fill, 40, 40, fallback: 'no_image.jpg' %>
+			</div>
+			<div class='comment-text'>
+				<p><%= link_to "#{book_comment.user.name}",user_path(book_comment.user.id) %></p>
+
+				<div class="comment-entry">
+					<%= book_comment.content %>
+
+				</div>
+			</div>
+		</div>
+	</li>
+<% end %> 
