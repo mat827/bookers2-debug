@@ -1,4 +1,6 @@
 class BookCommentsController < ApplicationController
+	before_action :authenticate_user!
+
 	def create
 		@book = Book.find(params[:book_id])
 		@user = @book.user
@@ -8,10 +10,10 @@ class BookCommentsController < ApplicationController
 		@book_comment.save!
 	end
 
-	def destoroy
+	def destroy
 		@book = Book.find(params[:book_id])
-		@book_comment = BookComment.find(params[:id])
-		if book_comment.user != current_user
+		@book_comment = @book.book_comments.find(params[:id])
+		if @book_comment.user != current_user
 			redirect_to request.referer
 		end
 		@book_comment.destroy
