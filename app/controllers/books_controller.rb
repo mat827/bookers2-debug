@@ -11,6 +11,8 @@ before_action :authenticate_user!
   def index
     @user = current_user
     @book = Book.new
+    @book_comment = BookComment.new
+    @book_comments = @book.book_comments
   	@books = Book.all #一覧表示するためにBookモデルの情報を全てくださいのall
   end
 
